@@ -41,6 +41,10 @@ const manageRecipes = async () => {
     await Recipe.insertMany(data);
     console.log(data);
 
+    data.forEach((element) => {
+      console.log(element.title);
+    });
+
     await Recipe.findOneAndUpdate(
       { title: "Rigatoni alla Genovese" },
       {
