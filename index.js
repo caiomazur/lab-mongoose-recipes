@@ -1,13 +1,29 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // Import of the model Recipe from './models/Recipe.model.js'
-const Recipe = require('./models/Recipe.model');
-// Import of the data from './data.json'
-const data = require('./data');
+const Recipe = require("./models/Recipe.model");
+mongoose.set("strictQuery", true);
 
-const MONGODB_URI = 'mongodb://localhost:27017/recipe-app';
+// Import of the data from './data.json'
+const data = require("./data");
+
+const MONGODB_URI =
+  "mongodb+srv://caiomazur:ironhack@cluster0.m24i5xu.mongodb.net/recipes?retryWrites=true&w=majority";
 
 //Method 1 : Using Async Await
+
+const applePie = {
+  title: "Apple Pie",
+  level: "Amateur Chef",
+  ingredients: ["apple", "pie"],
+  cuisine: "Eastern",
+  dishType: "snack",
+  image:
+    "https://kristineskitchenblog.com/wp-content/uploads/2021/04/apple-pie-1200-square-592-2.jpg",
+  duration: 2,
+  creator: "Mr. Pie",
+  /*   console.log(applePie) */
+};
 
 const manageRecipes = async () => {
   try {
@@ -19,6 +35,24 @@ const manageRecipes = async () => {
     await Recipe.deleteMany();
 
     // Run your code here, after you have insured that the connection was made
+    await Recipe.create(applePie);
+    console.log(applePie.title);
+
+    await Recipe.insertMany(data);
+    console.log(data);
+
+    await Recipe.findOneAndUpdate(
+      { title: "Rigatoni alla Genovese" },
+      {
+        duration: 100,
+      }
+    );
+    console.log("Recipe Successfully Updated!");
+
+    await Recipe.deleteOne({ title: "Carrot Cake" });
+    console.log("Recipe Deleted!");
+
+    mongoose.disconnect();
   } catch (error) {
     console.log(error);
   }
